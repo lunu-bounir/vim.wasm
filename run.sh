@@ -4,7 +4,7 @@ git clone https://github.com/vim/vim.git
 ./patches.sh
 
 pushd vim
-./build.sh
+RELEASE=true ./build.sh
 popd
 
 zip -r wasm.zip vim/wasm
