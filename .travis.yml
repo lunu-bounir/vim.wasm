@@ -1,0 +1,12 @@
+notifications:
+  email: false
+sudo: required
+services:
+  - docker
+before_install:
+  - docker run -dit --name emscripten -v $(pwd):/src trzeci/emscripten:sdk-incoming-64bit
+script:
+  - docker exec -it emscripten git clone https://github.com/vim/vim.git
+  - docker exec -it emscripten ./patches.sh
+  - docker exec -it emscripten bash -c "cd /src/vim && ./build.sh"
+  - docker exec -it emscripten zip -r wasm.zip vim/wasm
