@@ -1,0 +1,20 @@
+notifications:
+  email: false
+sudo: required
+services:
+- docker
+before_install:
+- docker run -dit --name emscripten -v $(pwd):/src trzeci/emscripten:sdk-incoming-64bit
+script:
+- docker exec -it emscripten ./run.sh
+deploy:
+  provider: releases
+  prerelease: true
+  api_key:
+    secure: BqP2zdQl9ZpRv8XEY7E5FvDG8fJ6Mb+f8ZKQy07IstEONwgCUX9XrakiCJgT1PXti1CwgHap2EOGrUZ5NTrGgDJYjVtMVIWJaqKSghMAotBZTA+6WE7nrBiT/tjmvb6vzo2zyMobTr+Zq9wYmZ+K/vxlDfWY0wueN2NrlrvuPna4R5/e5s1GamAB/zxHK41jUPtgVsvGNhtoyeT6M+QIlUPPOedzDrSqmsfPG9H6UTn9vtOr7UPw9NzU6yDnE5bRukeZq8cF++GqMM2mv4+0BthWFWkvfgtyviY7XUaP1OGH6lJP4N0iGqnpQcTfN2iaQnF0Pu0Ms3dEsa+CtU9SS49fSNQmrePSJx6OKgG7CQWx6RnceSm07HoW8fqAe1t9E2bG1NKbsdd1SAX+rI7istdMH3lacpblEsrQDcibOUNIz0TVMfIEwD+SmAsSs9D1/V4Nj/2ahht4a99O6dt7/o3nGuxt05663FmvxHf4HacjuWAkjTKRjo/hLf3+qWJU7/XNc8jE+9MurfWERYuSRPs0Exyi4W45Un/j9n8k/hZROPAjX07uG+9ytXDWBWKL8usddtzDMzHgtT+tEHx4ahQjvXkrTt/H2aO+7G89KbKwns3YtyXQ60AAk9V2wyiBaEI9RsAIrX8Ce564LKY4rauIizyefH2ICDFsslvFZA0=
+  file:
+    - wasm.zip
+  on:
+    tags: true
+  overwrite: true
+  skip_cleanup: true
